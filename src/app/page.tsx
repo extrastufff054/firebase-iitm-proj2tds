@@ -18,6 +18,20 @@ import { Label } from '@/components/ui/label';
 
 const SECRET_KEY = 'secret123';
 
+function Icon() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <div className="h-8 w-8" />;
+  }
+
+  return <BrainCircuit className="h-8 w-8" />;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
@@ -65,7 +79,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-2xl rounded-2xl">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <BrainCircuit className="h-8 w-8" />
+            <Icon />
           </div>
           <CardTitle className="text-3xl font-bold tracking-tighter text-foreground">
             Quiz Solver <span className="text-primary">AI</span>
