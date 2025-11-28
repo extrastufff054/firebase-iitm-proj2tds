@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, type ReactNode, type ElementType } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -7,6 +8,7 @@ import {
   GraduationCap,
   LayoutGrid,
   LogOut,
+  PanelLeft,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -21,6 +23,25 @@ import {
   SidebarFooter,
 } from '@/components/ui/sidebar';
 import { Logo } from '@/components/logo';
+
+function Icon({ as, ...props }: { as: ElementType, [key: string]: any }) {
+  const [isMounted, setIsMounted] = useState(false);
+  const IconComponent = as;
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    const size = props.size || 24;
+    const width = props.width || size;
+    const height = props.height || size;
+    return <div style={{ width, height }} />;
+  }
+
+  return <IconComponent {...props} />;
+}
+
 
 export default function QuizLayout({
   children,
@@ -44,7 +65,7 @@ export default function QuizLayout({
                 tooltip="Quiz"
               >
                 <Link href="/quiz">
-                  <LayoutGrid />
+                  <Icon as={LayoutGrid} />
                   <span>Quiz</span>
                 </Link>
               </SidebarMenuButton>
@@ -56,7 +77,7 @@ export default function QuizLayout({
                 tooltip="Prompt Tester"
               >
                 <Link href="/quiz/prompt-tester">
-                  <FlaskConical />
+                  <Icon as={FlaskConical} />
                   <span>Prompt Tester</span>
                 </Link>
               </SidebarMenuButton>
@@ -68,7 +89,7 @@ export default function QuizLayout({
                 tooltip="Results"
               >
                 <Link href="/quiz/results">
-                  <GraduationCap />
+                  <Icon as={GraduationCap} />
                   <span>Results</span>
                 </Link>
               </SidebarMenuButton>
@@ -80,7 +101,7 @@ export default function QuizLayout({
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip="Logout">
                 <Link href="/">
-                  <LogOut />
+                  <Icon as={LogOut} />
                   <span>Logout</span>
                 </Link>
               </SidebarMenuButton>
@@ -90,7 +111,9 @@ export default function QuizLayout({
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6">
-            <SidebarTrigger className="md:hidden"/>
+            <SidebarTrigger className="md:hidden">
+              <Icon as={PanelLeft} />
+            </SidebarTrigger>
             <div className="flex-1">
                 <h1 className="text-lg font-semibold md:text-2xl">
                     {pathname.includes('prompt-tester') ? 'Prompt Tester' : pathname.includes('results') ? 'Quiz Results' : 'Quiz Solver'}

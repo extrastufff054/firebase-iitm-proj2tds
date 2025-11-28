@@ -18,7 +18,7 @@ import { Label } from '@/components/ui/label';
 
 const SECRET_KEY = 'secret123';
 
-function Icon() {
+function LoginIcon() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -74,17 +74,17 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4 selection:bg-primary/20">
-       <div className="absolute top-0 left-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
-      <Card className="w-full max-w-md shadow-2xl rounded-2xl">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100/50 p-4 font-body selection:bg-primary/20 dark:bg-gray-900/50">
+      <div className="absolute top-0 left-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-gray-950 dark:bg-[radial-gradient(#27272a_1px,transparent_1px)]"></div>
+      <Card className="w-full max-w-md rounded-2xl border-0 shadow-2xl shadow-gray-900/10 dark:shadow-black/50">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <Icon />
+            <LoginIcon />
           </div>
           <CardTitle className="text-3xl font-bold tracking-tighter text-foreground">
             Quiz Solver <span className="text-primary">AI</span>
           </CardTitle>
-          <CardDescription className="pt-2 text-base">
+          <CardDescription className="pt-2 text-base text-foreground/60">
             Enter the secret key to begin your session.
           </CardDescription>
         </CardHeader>
