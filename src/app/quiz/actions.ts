@@ -12,11 +12,8 @@ import {
   type OptimizeLLMPerformanceOutput,
 } from '@/ai/flows/optimize-llm-performance-with-system-prompt';
 
-import { 
-  solveQuiz,
-  type SolveQuizInput,
-  type SolveQuizOutput
-} from '@/ai/flows/solve-quiz-flow';
+import { solveQuiz } from '@/ai/flows/solve-quiz-flow';
+import type { SolveQuizInput, SolveQuizOutput } from '@/ai/flows/solve-quiz-types';
 
 export async function solveQuestionAction(input: AnalyzeQuizQuestionInput): Promise<AnalyzeQuizQuestionOutput> {
   // Simulate network latency for a better user experience

@@ -8,22 +8,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-
-export const SolveQuizInputSchema = z.object({
-  email: z.string().describe('The user email address.'),
-  secret: z.string().describe('The secret string for verification.'),
-  url: z.string().url().describe('The URL of the quiz task.'),
-});
-export type SolveQuizInput = z.infer<typeof SolveQuizInputSchema>;
-
-export const SolveQuizOutputSchema = z.object({
-  finalAnswer: z.any().optional().describe('The final answer submitted for the last question.'),
-  finalUrl: z.string().url().optional().describe('The last URL that was processed.'),
-  isCorrect: z.boolean().optional().describe('Whether the final answer was correct.'),
-  error: z.string().optional().describe('Any error that occurred during the process.'),
-  log: z.array(z.string()).describe('A log of the steps taken.'),
-});
-export type SolveQuizOutput = z.infer<typeof SolveQuizOutputSchema>;
+import { SolveQuizInputSchema, SolveQuizOutputSchema } from './solve-quiz-types';
 
 
 async function fetchAndDecode(url: string, log: (message: string) => void): Promise<string> {
@@ -100,8 +85,7 @@ Based on the context, provide the answer and your reasoning.
 `
 });
 
-
-export const solveQuiz = ai.defineFlow(
+const solveQuizFlow = ai.defineFlow(
   {
     name: 'solveQuizFlow',
     inputSchema: SolveQuizInputSchema,
@@ -186,3 +170,8 @@ export const solveQuiz = ai.defineFlow(
     }
   }
 );
+
+
+export async function solveQuiz(input: z.infer<typeof SolveQuizInputSchema>): Promise<z.infer<typeof SolveQuizOutputSchema>> {
+    return solveQuizFlow(input);
+}
