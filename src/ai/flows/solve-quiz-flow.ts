@@ -20,6 +20,7 @@ async function fetchAndDecode(url: string, log: (message: string) => void): Prom
   const html = await response.text();
   log('Successfully fetched HTML.');
 
+  // More robust regex to find script content
   const scriptContentRegex = /<script>([\s\S]*?)<\/script>/;
   const match = html.match(scriptContentRegex);
   
@@ -27,16 +28,17 @@ async function fetchAndDecode(url: string, log: (message: string) => void): Prom
     const scriptContent = match[1];
     log('Found script tag.');
     
+    // Regex to find atob() call and capture its content
     const atobRegex = /atob\(`([^`]+)`\)/;
     const atobMatch = scriptContent.match(atobRegex);
 
     if (atobMatch && atobMatch[1]) {
         log('Found atob() call, decoding content.');
-        // Using Buffer for robust base64 decoding
+        // Using Buffer for robust base64 decoding in Node.js environment
         return Buffer.from(atobMatch[1], 'base64').toString('utf-8');
     }
   }
-  log('No base64 content found, returning raw HTML.');
+  log('No base64 content found to decode, returning raw HTML.');
   return html;
 }
 
@@ -118,7 +120,7 @@ const solveQuizFlow = ai.defineFlow(
         logMessage('Generating answer...');
         const answerResult = await answerGenerationPrompt({ question, context: decodedContent });
         if (!answerResult.output) {
-          throw new Error("Could not generate an answer.");
+          throw new Error("Could not generate an anwser.");
         }
 
         const { answer, reasoning } = answerResult.output;
@@ -133,6 +135,7 @@ const solveQuizFlow = ai.defineFlow(
             throw new Error('Failed to parse submission JSON format.');
         }
 
+        // Fill in the payload with required details
         submissionPayload.email = input.email;
         submissionPayload.secret = input.secret;
         submissionPayload.url = currentUrl;
@@ -154,6 +157,7 @@ const solveQuizFlow = ai.defineFlow(
         const submitResult = await submitResponse.json();
         logMessage(`Submission response: ${JSON.stringify(submitResult)}`);
 
+        // This is a simplified loop, the real implementation would handle chained URLs
         return {
           finalAnswer: answer,
           finalUrl: currentUrl,
