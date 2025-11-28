@@ -22,10 +22,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing email or url' }, { status: 400 });
   }
 
-  // Asynchronously start the quiz solving process
-  // We don't await this so we can return a 200 response immediately
+  // Asynchronously start the quiz solving process.
+  // We don't await this so we can return a 200 response immediately.
   solveQuizAction({ email, secret, url }).catch(console.error);
 
-  // Respond immediately to acknowledge receipt of the task
+  // Respond immediately to acknowledge receipt of the task.
   return NextResponse.json({ message: 'Quiz solving process initiated' }, { status: 200 });
 }
