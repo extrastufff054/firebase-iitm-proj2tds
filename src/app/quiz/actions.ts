@@ -12,6 +12,12 @@ import {
   type OptimizeLLMPerformanceOutput,
 } from '@/ai/flows/optimize-llm-performance-with-system-prompt';
 
+import { 
+  solveQuiz,
+  type SolveQuizInput,
+  type SolveQuizOutput
+} from '@/ai/flows/solve-quiz-flow';
+
 export async function solveQuestionAction(input: AnalyzeQuizQuestionInput): Promise<AnalyzeQuizQuestionOutput> {
   // Simulate network latency for a better user experience
   await new Promise(resolve => setTimeout(resolve, 1500));
@@ -22,4 +28,11 @@ export async function testPromptAction(input: OptimizeLLMPerformanceInput): Prom
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 1500));
   return await optimizeLLMPerformance(input);
+}
+
+export async function solveQuizAction(input: SolveQuizInput): Promise<SolveQuizOutput> {
+  console.log('Solving quiz with input:', input);
+  const result = await solveQuiz(input);
+  console.log('Quiz solved with result:', result);
+  return result;
 }
