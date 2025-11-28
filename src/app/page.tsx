@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BrainCircuit, Loader2, ShieldCheck } from 'lucide-react';
+import { BrainCircuit, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,6 +24,11 @@ export default function LoginPage() {
   const [secret, setSecret] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
 
   const handleLogin = () => {
     setError('');
@@ -102,7 +107,7 @@ export default function LoginPage() {
         </CardFooter>
       </Card>
       <footer className="absolute bottom-4 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Quiz Solver AI. All Rights Reserved.</p>
+        {year && <p>&copy; {year} Quiz Solver AI. All Rights Reserved.</p>}
         <p className="text-xs mt-1">Hint: The secret is 'secret123'</p>
       </footer>
     </main>
